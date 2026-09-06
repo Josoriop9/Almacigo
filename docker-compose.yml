@@ -1,0 +1,24 @@
+services:
+  control-plane:
+    build: ./control-plane
+    container_name: foundry-control-plane
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/azureuser/models:/models:ro
+    environment:
+      - HOST_MODELS_DIR=/home/azureuser/models
+      - LOCAL_MODELS_DIR=/models
+      - VLLM_IMAGE=vllm/vllm-openai-cpu:latest-x86_64
+      - COMPOSE_NETWORK=mini-foundry_default
+
+  ui:
+    image: nginx:alpine
+    container_name: foundry-ui
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - /home/azureuser/mini-foundry/ui:/usr/share/nginx/html:ro
