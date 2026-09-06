@@ -49,9 +49,9 @@ keep every layer visible:
 Three containers, but only two declared:
 
 ```
-foundry-ui              nginx, serves the HTML          :8080   ← compose
-foundry-control-plane   FastAPI, manages deployments    :8001   ← compose
-foundry-deployment      vLLM, serves the model          :8000   ← created at runtime
+almacigo-ui              nginx, serves the HTML         :8080   ← compose
+almacigo-control-plane   FastAPI, manages deployments   :8001   ← compose
+almacigo-deployment      vLLM, serves the model         :8000   ← created at runtime
 ```
 
 See it yourself:
@@ -68,7 +68,7 @@ the control plane manages dynamic resources by talking to `/var/run/docker.sock`
 to manage and `:8000` to generate. That's why both ports must be open, and why a
 gateway would sit in front of `:8000`, not `:8001`.
 
-![infrastructure](docs/infrastructure.svg)
+![request flow](docs/request-flow.svg)
 
 ---
 
@@ -98,10 +98,13 @@ Having both enables the most instructive experiment in this repo.
 **2. Bring it up**
 
 ```bash
-git clone https://github.com/Josoriop9/Almacigo.git
-cd Almacigo
+git clone https://github.com/Josoriop9/Almacigo.git almacigo
+cd almacigo
 docker compose up -d --build
 ```
+
+> The directory name matters: Compose derives the Docker network name from it,
+> and the control plane expects `almacigo_default`.
 
 **3. Verify**
 
@@ -211,4 +214,3 @@ To remove everything, delete the resource group.
 
 ## License
 
-MIT

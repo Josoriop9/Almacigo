@@ -1,24 +1,39 @@
+# Almácigo
+#
+# Two permanent services:
+#   control-plane  → API that creates and destroys deployments (port 8001)
+#   ui             → nginx serving the frontend (port 8080)
+#
+# The model container is NOT declared here: the control plane creates it
+# on demand when you click Deploy. That's what makes it a control plane —
+# it manages resources it doesn't declare up front.
+
 services:
   control-plane:
     build: ./control-plane
-    container_name: foundry-control-plane
+    container_name: almacigo-control-plane
     restart: unless-stopped
     ports:
       - "8001:8001"
     volumes:
+      # The Docker socket: this is how the container creates other containers.
+      # Equivalent to root on the host. Fine in a lab, never in production.
       - /var/run/docker.sock:/var/run/docker.sock
+      # Models, read-only, so we can list them.
       - /home/azureuser/models:/models:ro
     environment:
+      # Path ON THE HOST. Docker mounts volumes using host paths, even when
+      # the request comes from inside a container.
       - HOST_MODELS_DIR=/home/azureuser/models
       - LOCAL_MODELS_DIR=/models
       - VLLM_IMAGE=vllm/vllm-openai-cpu:latest-x86_64
-      - COMPOSE_NETWORK=mini-foundry_default
+      - COMPOSE_NETWORK=almacigo_default
 
   ui:
     image: nginx:alpine
-    container_name: foundry-ui
+    container_name: almacigo-ui
     restart: unless-stopped
     ports:
       - "8080:80"
     volumes:
-      - /home/azureuser/mini-foundry/ui:/usr/share/nginx/html:ro
+      - /home/azureuser/almacigo/ui:/usr/share/nginx/html:ro

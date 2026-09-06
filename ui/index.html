@@ -1,78 +1,52 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mini Foundry</title>
+<title>Almácigo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#FBFAF8;
-  --paper2:#F4F2EE;
-  --ink:#1B1E1B;
-  --muted:#767E75;
-  --faint:#A8AEA5;
-  --line:#E5E2DC;
-  --line2:#D3CFC7;
-  --sage:#7C9A78;
-  --clay:#C08B62;
-  --sky:#7BA0C4;
-  --lav:#9E93BC;
-  --rose:#C47B7B;
+  --paper:#FBFAF8;--paper2:#F4F2EE;--ink:#1B1E1B;--muted:#767E75;--faint:#A8AEA5;
+  --line:#E5E2DC;--line2:#D3CFC7;
+  --sage:#7C9A78;--clay:#C08B62;--sky:#7BA0C4;--lav:#9E93BC;--rose:#C47B7B;
   --sans:'Instrument Sans',system-ui,-apple-system,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
-body{
-  background:var(--paper);color:var(--ink);
-  font:400 15px/1.6 var(--sans);
+body{background:var(--paper);color:var(--ink);font:400 15px/1.6 var(--sans);
   display:flex;flex-direction:column;height:100vh;overflow:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-/* gradiente ambiente, orgánico */
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  -webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background:
     radial-gradient(60vw 50vh at 12% -5%, rgba(124,154,120,.16), transparent 65%),
     radial-gradient(50vw 45vh at 88% 8%, rgba(158,147,188,.14), transparent 62%),
     radial-gradient(55vw 50vh at 70% 105%, rgba(192,139,98,.11), transparent 60%);
-  filter:blur(20px);
-}
+  filter:blur(20px)}
 header,main,.modal{position:relative;z-index:1}
 
-/* ---------- header ---------- */
-header{
-  padding:22px 40px 18px;display:flex;align-items:baseline;gap:36px;
-  flex-wrap:wrap;flex-shrink:0;
-}
+header{padding:22px 40px 18px;display:flex;align-items:baseline;gap:36px;
+  flex-wrap:wrap;flex-shrink:0}
 .brand{font-size:19px;font-weight:600;letter-spacing:-.03em}
-.brand em{
-  font-style:normal;font-weight:400;color:var(--faint);
-  margin-left:9px;font-size:12px;letter-spacing:.02em;
-}
+.brand em{font-style:normal;font-weight:400;color:var(--faint);
+  margin-left:9px;font-size:12px;letter-spacing:.02em}
 nav{display:flex;gap:26px}
-.tab{
-  background:none;border:none;padding:0 0 3px;cursor:pointer;
+.tab{background:none;border:none;padding:0 0 3px;cursor:pointer;
   font:400 14px var(--sans);color:var(--faint);letter-spacing:-.01em;
-  border-bottom:1px solid transparent;transition:.18s;
-}
+  border-bottom:1px solid transparent;transition:.18s}
 .tab:hover{color:var(--muted)}
 .tab.on{color:var(--ink);border-bottom-color:var(--ink)}
 .spacer{margin-left:auto}
-.pill{
-  font:400 12px var(--mono);color:var(--muted);
-  display:flex;align-items:center;gap:8px;white-space:nowrap;
-}
+.pill{font:400 12px var(--mono);color:var(--muted);
+  display:flex;align-items:center;gap:8px;white-space:nowrap}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--faint);flex-shrink:0}
 .dot.ok{background:var(--sage)}
-.dot.warn{background:var(--clay);animation:breathe 1.6s ease-in-out infinite}
 .dot.err{background:var(--rose)}
 @keyframes breathe{50%{opacity:.25}}
 
-/* ---------- vistas ---------- */
 main{flex:1;overflow:hidden;position:relative}
 .view{position:absolute;inset:0;overflow-y:auto;padding:14px 40px 48px;display:none}
 .view.on{display:block}
@@ -83,20 +57,17 @@ main{flex:1;overflow:hidden;position:relative}
 h2{font:400 34px/1.15 var(--sans);letter-spacing:-.035em;margin:18px 0 6px}
 .sub{color:var(--muted);font-size:14.5px;margin:0 0 34px;max-width:56ch}
 
-/* ---------- catálogo ---------- */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:1px;
   background:var(--line);border:1px solid var(--line);max-width:1000px}
-.card{background:var(--paper);padding:26px 24px;transition:.2s;position:relative}
+.card{background:var(--paper);padding:26px 24px;transition:.2s}
 .card:hover{background:var(--paper2)}
 .card h3{margin:0;font:500 16px var(--mono);letter-spacing:-.02em;word-break:break-all}
 .tags{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0 22px;
   font:400 11.5px var(--mono);color:var(--faint)}
 .tag.kind{color:var(--sage)}
 .tag.kind.base{color:var(--clay)}
-button{
-  background:var(--ink);color:var(--paper);border:none;padding:9px 20px;
-  font:400 13.5px var(--sans);cursor:pointer;transition:.18s;letter-spacing:-.01em;
-}
+button{background:var(--ink);color:var(--paper);border:none;padding:9px 20px;
+  font:400 13.5px var(--sans);cursor:pointer;transition:.18s;letter-spacing:-.01em}
 button:hover:not(:disabled){opacity:.82}
 button:disabled{opacity:.25;cursor:default}
 button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line2)}
@@ -105,7 +76,6 @@ button.danger{background:transparent;color:var(--rose);border:1px solid var(--ro
 button.danger:hover{background:var(--rose);color:var(--paper);opacity:1}
 button.full{width:100%}
 
-/* ---------- modal ---------- */
 .modal{position:fixed;inset:0;background:rgba(251,250,248,.82);backdrop-filter:blur(7px);
   display:none;align-items:center;justify-content:center;padding:22px;z-index:50}
 .modal.on{display:flex}
@@ -116,11 +86,10 @@ button.full{width:100%}
 .field label{display:block;font:400 11.5px var(--mono);color:var(--faint);
   margin-bottom:7px;letter-spacing:.02em}
 .field label span{float:right;color:var(--ink)}
-select,input[type=number]{
-  width:100%;background:transparent;border:none;border-bottom:1px solid var(--line2);
-  color:var(--ink);padding:7px 0;font:400 14px var(--sans);outline:none;
-  border-radius:0;-webkit-appearance:none;appearance:none;
-}
+select,input[type=number]{width:100%;background:transparent;border:none;
+  border-bottom:1px solid var(--line2);color:var(--ink);padding:7px 0;
+  font:400 14px var(--sans);outline:none;border-radius:0;
+  -webkit-appearance:none;appearance:none}
 select:focus,input[type=number]:focus{border-bottom-color:var(--ink)}
 select{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='6'%3E%3Cpath d='M1 1l3.5 3.5L8 1' stroke='%23767E75' fill='none' stroke-width='1.2'/%3E%3C/svg%3E") no-repeat right center}
 input[type=range]{width:100%;accent-color:var(--ink);height:2px}
@@ -128,7 +97,6 @@ input[type=range]{width:100%;accent-color:var(--ink);height:2px}
   border-left:1px solid var(--clay);padding:2px 0 2px 14px;margin-bottom:24px}
 .actions{display:flex;gap:10px;justify-content:flex-end}
 
-/* ---------- deployment ---------- */
 .dep{max-width:620px}
 .deprow{display:flex;justify-content:space-between;align-items:baseline;
   gap:20px;padding-bottom:22px;border-bottom:1px solid var(--line)}
@@ -153,7 +121,6 @@ input[type=range]{width:100%;accent-color:var(--ink);height:2px}
 .logs.on{display:block}
 .empty{color:var(--faint);font-size:14.5px;padding:60px 0;line-height:1.9;max-width:44ch}
 
-/* ---------- playground ---------- */
 .pgwrap{flex:1;display:grid;grid-template-columns:1fr 250px;overflow:hidden}
 @media(max-width:840px){.pgwrap{grid-template-columns:1fr}.pgside{display:none}}
 .pgchat{display:flex;flex-direction:column;overflow:hidden}
@@ -171,11 +138,9 @@ input[type=range]{width:100%;accent-color:var(--ink);height:2px}
 .composer{padding:18px 40px 24px;flex-shrink:0;border-top:1px solid var(--line)}
 @media(max-width:700px){.composer{padding:16px 22px 20px}}
 .crow{display:flex;gap:14px;align-items:flex-end;max-width:660px}
-textarea{
-  flex:1;background:transparent;border:none;border-bottom:1px solid var(--line2);
+textarea{flex:1;background:transparent;border:none;border-bottom:1px solid var(--line2);
   color:var(--ink);padding:10px 0;font:400 15.5px/1.6 var(--sans);
-  resize:none;min-height:42px;max-height:150px;outline:none;
-}
+  resize:none;min-height:42px;max-height:150px;outline:none}
 textarea:focus{border-bottom-color:var(--ink)}
 textarea::placeholder{color:var(--faint)}
 .metrics{display:flex;gap:26px;font:400 11.5px var(--mono);color:var(--faint);
@@ -187,18 +152,13 @@ textarea::placeholder{color:var(--faint)}
 .toggle input{accent-color:var(--ink);width:14px;height:14px}
 .hr{border-top:1px solid var(--line);margin:26px 0}
 
-/* ---------- garabatos de crayola ---------- */
 .doodle{display:block;margin:6px 0 -6px;opacity:.9;pointer-events:none;
   animation:wiggle 6s ease-in-out infinite}
 .doodle.pg{margin:0 auto 26px;animation-duration:7s}
-@keyframes wiggle{
-  0%,100%{transform:rotate(-.7deg) translateY(0)}
-  50%{transform:rotate(.7deg) translateY(-3px)}
-}
-.doodle path,.doodle circle,.doodle line,.doodle ellipse,.doodle rect{
-  fill:none;stroke-linecap:round;stroke-linejoin:round;
-  filter:url(#crayon);vector-effect:non-scaling-stroke;
-}
+@keyframes wiggle{0%,100%{transform:rotate(-.7deg) translateY(0)}
+  50%{transform:rotate(.7deg) translateY(-3px)}}
+.doodle path,.doodle circle,.doodle rect{fill:none;stroke-linecap:round;
+  stroke-linejoin:round;filter:url(#crayon);vector-effect:non-scaling-stroke}
 .doodle .fill{fill:currentColor;stroke:none;opacity:.16}
 @media(max-width:700px){.doodle{transform:scale(.85);transform-origin:left center}}
 </style>
@@ -206,9 +166,9 @@ textarea::placeholder{color:var(--faint)}
 <body>
 
 <header>
-  <div class="brand">Mini Foundry<em>control plane</em></div>
+  <div class="brand">Almácigo<em>control plane</em></div>
   <nav>
-    <button class="tab on" data-v="catalog">Catálogo</button>
+    <button class="tab on" data-v="catalog">Catalog</button>
     <button class="tab" data-v="deployments">Deployments</button>
     <button class="tab" data-v="playground">Playground</button>
   </nav>
@@ -217,7 +177,6 @@ textarea::placeholder{color:var(--faint)}
 </header>
 
 <main>
-  <!-- filtro compartido: le da el temblor de crayola a todos los trazos -->
   <svg width="0" height="0" style="position:absolute">
     <filter id="crayon">
       <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="4" seed="7" result="n"/>
@@ -226,13 +185,10 @@ textarea::placeholder{color:var(--faint)}
   </svg>
 
   <section class="view on" id="v-catalog">
-    <!-- estantería con modelitos -->
     <svg class="doodle" width="230" height="112" viewBox="0 0 230 112" aria-hidden="true">
-      <!-- estante -->
       <path d="M12 88 C60 85, 130 91, 218 87" stroke="#C08B62" stroke-width="3.2"/>
       <path d="M28 88 L26 100" stroke="#C08B62" stroke-width="2.6"/>
       <path d="M202 87 L205 99" stroke="#C08B62" stroke-width="2.6"/>
-      <!-- caja 1, con carita -->
       <g style="color:#7C9A78">
         <rect class="fill" x="30" y="46" width="44" height="41"/>
         <path d="M31 47 L73 45 L74 87 L30 88 Z" stroke="#7C9A78" stroke-width="3"/>
@@ -240,32 +196,26 @@ textarea::placeholder{color:var(--faint)}
         <circle cx="60" cy="60" r="2.4" stroke="#7C9A78" stroke-width="2.4"/>
         <path d="M43 71 C48 77, 57 76, 61 70" stroke="#7C9A78" stroke-width="2.4"/>
       </g>
-      <!-- caja 2, más alta -->
       <g style="color:#7BA0C4">
         <rect class="fill" x="88" y="30" width="42" height="57"/>
         <path d="M89 32 L129 29 L131 87 L88 88 Z" stroke="#7BA0C4" stroke-width="3"/>
         <path d="M97 45 L121 43 M97 55 L116 54 M97 65 L120 63" stroke="#7BA0C4" stroke-width="2.2"/>
       </g>
-      <!-- caja 3 -->
       <g style="color:#9E93BC">
         <rect class="fill" x="145" y="54" width="47" height="33"/>
         <path d="M146 56 L191 53 L193 87 L145 88 Z" stroke="#9E93BC" stroke-width="3"/>
         <path d="M156 70 C163 63, 174 76, 182 67" stroke="#9E93BC" stroke-width="2.4"/>
       </g>
-      <!-- estrellita -->
       <path d="M170 22 L172 32 M166 27 L177 26" stroke="#C08B62" stroke-width="2.4"/>
     </svg>
-    <h2>Catálogo</h2>
-    <p class="sub">Modelos descargados en la máquina. Elige uno para crear un deployment.</p>
-    <div class="cards" id="cards"><div class="empty">Cargando…</div></div>
+    <h2>Catalog</h2>
+    <p class="sub">Models downloaded to this machine. Pick one to create a deployment.</p>
+    <div class="cards" id="cards"><div class="empty">Loading…</div></div>
   </section>
 
   <section class="view" id="v-deployments">
-    <!-- cohetito despegando de una cajita -->
     <svg class="doodle" width="215" height="118" viewBox="0 0 215 118" aria-hidden="true">
-      <!-- suelo -->
       <path d="M14 104 C58 101, 128 107, 200 102" stroke="#C08B62" stroke-width="3"/>
-      <!-- servidor -->
       <g style="color:#9E93BC">
         <rect class="fill" x="24" y="62" width="52" height="41"/>
         <path d="M25 63 L75 61 L77 103 L24 104 Z" stroke="#9E93BC" stroke-width="3"/>
@@ -273,9 +223,7 @@ textarea::placeholder{color:var(--faint)}
         <circle cx="68" cy="74" r="2.6" stroke="#7C9A78" stroke-width="2.4"/>
         <circle cx="68" cy="85" r="2.6" stroke="#7C9A78" stroke-width="2.4"/>
       </g>
-      <!-- cable serpenteante -->
       <path d="M77 88 C93 92, 96 74, 112 79" stroke="#C08B62" stroke-width="2.6"/>
-      <!-- cohete -->
       <g style="color:#7C9A78">
         <path class="fill" d="M148 20 C163 33, 165 55, 158 74 L136 76 C128 57, 132 34, 148 20 Z"/>
         <path d="M147 19 C163 32, 166 55, 158 75 L136 77 C127 57, 131 33, 147 19 Z"
@@ -284,18 +232,16 @@ textarea::placeholder{color:var(--faint)}
         <path d="M136 60 L124 74 L137 71" stroke="#7C9A78" stroke-width="2.8"/>
         <path d="M158 59 L171 72 L157 70" stroke="#7C9A78" stroke-width="2.8"/>
       </g>
-      <!-- llamitas -->
       <path d="M141 79 C139 88, 145 92, 143 99" stroke="#C08B62" stroke-width="2.8"/>
       <path d="M152 78 C155 87, 149 91, 152 98" stroke="#C08B62" stroke-width="2.8"/>
-      <!-- nubecillas -->
       <path d="M180 34 C186 27, 196 30, 197 37 C204 38, 203 46, 195 46 L182 45 C176 44, 175 36, 180 34 Z"
             stroke="#7BA0C4" stroke-width="2.6"/>
       <path d="M22 34 C27 29, 35 32, 35 38 L23 39 C19 38, 19 35, 22 34 Z"
             stroke="#7BA0C4" stroke-width="2.4"/>
     </svg>
     <h2>Deployment</h2>
-    <p class="sub">Un deployment activo a la vez. La memoria de la máquina no da para más.</p>
-    <div id="depBox"><div class="empty">Cargando…</div></div>
+    <p class="sub">One active deployment at a time. This machine doesn't have memory for more.</p>
+    <div id="depBox"><div class="empty">Loading…</div></div>
   </section>
 
   <section class="view playground" id="v-playground">
@@ -304,7 +250,6 @@ textarea::placeholder{color:var(--faint)}
         <div class="msgs" id="msgs">
           <div class="empty" id="pgEmpty" style="margin:auto;text-align:center;padding:20px 0">
             <svg class="doodle pg" width="210" height="130" viewBox="0 0 210 130" aria-hidden="true">
-              <!-- bocadillo grande -->
               <g style="color:#7BA0C4">
                 <path class="fill" d="M18 20 L118 16 L122 74 L52 77 L34 95 L36 76 L20 77 Z"/>
                 <path d="M18 21 C17 17, 20 16, 24 16 L114 14 C119 14, 121 17, 121 21 L123 70
@@ -312,7 +257,6 @@ textarea::placeholder{color:var(--faint)}
                       stroke="#7BA0C4" stroke-width="3.1"/>
                 <path d="M34 36 L102 33 M34 48 L88 46 M34 60 L96 57" stroke="#7BA0C4" stroke-width="2.3"/>
               </g>
-              <!-- bocadillo chico, respuesta -->
               <g style="color:#7C9A78">
                 <path class="fill" d="M110 60 L192 57 L194 106 L176 122 L177 104 L112 106 Z"/>
                 <path d="M110 61 C109 57, 112 56, 116 56 L188 54 C193 54, 194 57, 194 61 L196 100
@@ -322,7 +266,6 @@ textarea::placeholder{color:var(--faint)}
                 <circle cx="151" cy="79" r="3" stroke="#7C9A78" stroke-width="2.5"/>
                 <path d="M130 90 C137 97, 149 96, 155 88" stroke="#7C9A78" stroke-width="2.5"/>
               </g>
-              <!-- solecito -->
               <g style="color:#C08B62">
                 <circle cx="178" cy="22" r="9" stroke="#C08B62" stroke-width="2.8"/>
                 <path d="M178 6 L178 1 M178 43 L178 38 M162 22 L157 21 M199 22 L194 22
@@ -330,13 +273,13 @@ textarea::placeholder{color:var(--faint)}
                       stroke="#C08B62" stroke-width="2.4"/>
               </g>
             </svg>
-            Necesitas un deployment en estado running.
+            You need a deployment in the running state.
           </div>
         </div>
         <div class="composer">
           <div class="crow">
-            <textarea id="input" rows="1" placeholder="Escribe algo…"></textarea>
-            <button id="send">Enviar</button>
+            <textarea id="input" rows="1" placeholder="Say something…"></textarea>
+            <button id="send">Send</button>
           </div>
           <div class="metrics">
             <span>ttft <b id="mTtft">—</b></span>
@@ -347,7 +290,7 @@ textarea::placeholder{color:var(--faint)}
         </div>
       </div>
       <aside class="pgside">
-        <h4>Parámetros</h4>
+        <h4>Parameters</h4>
         <div class="field">
           <label>temperature <span id="vTemp">0.7</span></label>
           <input type="range" id="temp" min="0" max="2" step="0.1" value="0.7">
@@ -360,7 +303,7 @@ textarea::placeholder{color:var(--faint)}
           <label class="toggle"><input type="checkbox" id="stream" checked> streaming</label>
         </div>
         <div class="hr"></div>
-        <button class="ghost full" id="clear">Limpiar chat</button>
+        <button class="ghost full" id="clear">Clear chat</button>
       </aside>
     </div>
   </section>
@@ -368,17 +311,17 @@ textarea::placeholder{color:var(--faint)}
 
 <div class="modal" id="modal">
   <div class="box">
-    <h3>Crear deployment</h3>
+    <h3>Create deployment</h3>
     <div class="note" id="modalWarn"></div>
     <div class="field">
-      <label>modelo</label>
+      <label>model</label>
       <select id="fModel"></select>
     </div>
     <div class="field">
       <label>dtype</label>
       <select id="fDtype">
-        <option value="float32">float32 — más memoria, estable en CPU</option>
-        <option value="bfloat16">bfloat16 — menos memoria, lento sin AMX</option>
+        <option value="float32">float32 — more memory, stable on CPU</option>
+        <option value="bfloat16">bfloat16 — less memory, slow without AMX</option>
       </select>
     </div>
     <div class="field">
@@ -386,12 +329,12 @@ textarea::placeholder{color:var(--faint)}
       <input type="range" id="fLen" min="256" max="4096" step="256" value="1024">
     </div>
     <div class="field">
-      <label>memoria reservada <span id="vMem">0.5</span></label>
+      <label>reserved memory <span id="vMem">0.5</span></label>
       <input type="range" id="fMem" min="0.2" max="0.9" step="0.05" value="0.5">
     </div>
     <div class="actions">
-      <button class="ghost" id="cancel">Cancelar</button>
-      <button id="confirm">Desplegar</button>
+      <button class="ghost" id="cancel">Cancel</button>
+      <button id="confirm">Deploy</button>
     </div>
   </div>
 </div>
@@ -416,10 +359,10 @@ async function health(){
     if(!r.ok) throw 0;
     const d = await r.json();
     $('dot').className = 'dot ok';
-    $('stat').textContent = `${d.disk_free_gb} GB libres`;
+    $('stat').textContent = `${d.disk_free_gb} GB free`;
   }catch{
     $('dot').className = 'dot err';
-    $('stat').textContent = 'sin conexión';
+    $('stat').textContent = 'disconnected';
   }
 }
 
@@ -429,7 +372,7 @@ async function loadModels(){
 
   if(!models.length){
     $('cards').innerHTML = `<div class="empty" style="padding:40px 24px">
-      No hay modelos en disco. Descarga uno con <code>hf download</code> en ~/models</div>`;
+      No models on disk. Download one with <code>hf download</code> into ~/models</div>`;
     return;
   }
 
@@ -442,7 +385,7 @@ async function loadModels(){
         <span>${m.size_gb} GB</span>
         ${m.architecture ? `<span>${m.architecture}</span>` : ''}
       </div>
-      <button class="full" onclick="openModal('${m.name}')">Desplegar</button>
+      <button class="full" onclick="openModal('${m.name}')">Deploy</button>
     </div>`).join('');
 }
 
@@ -456,8 +399,8 @@ window.openModal = name => {
 function updateWarn(){
   const m = models.find(x => x.name === $('fModel').value);
   $('modalWarn').textContent = m && !m.is_instruct
-    ? 'Este es un modelo base, no instruct. Solo completa texto: en el playground dará respuestas incoherentes. Es el comportamiento esperado.'
-    : 'Desplegar reemplaza el deployment actual. La carga de pesos tarda entre 30 s y varios minutos.';
+    ? 'This is a base model, not an instruct one. It only completes text: in the playground it will produce incoherent answers. That is the expected behaviour.'
+    : 'Deploying replaces the current deployment. Loading the weights takes anywhere from 30 s to a few minutes.';
 }
 
 $('fModel').onchange = updateWarn;
@@ -467,7 +410,7 @@ $('fMem').oninput = e => $('vMem').textContent = e.target.value;
 
 $('confirm').onclick = async () => {
   $('confirm').disabled = true;
-  $('confirm').textContent = 'Creando…';
+  $('confirm').textContent = 'Creating…';
   try{
     const r = await fetch(`${CP}/api/deployments`, {
       method:'POST',
@@ -483,10 +426,10 @@ $('confirm').onclick = async () => {
     $('modal').classList.remove('on');
     document.querySelector('[data-v=deployments]').click();
     loadDeployment();
-  }catch(e){ alert('No se pudo crear: ' + e.message); }
+  }catch(e){ alert('Could not create: ' + e.message); }
   finally{
     $('confirm').disabled = false;
-    $('confirm').textContent = 'Desplegar';
+    $('confirm').textContent = 'Deploy';
   }
 };
 
@@ -496,9 +439,8 @@ async function loadDeployment(){
 
   if(!dep || !dep.exists){
     $('depBox').innerHTML = `<div class="empty">
-      No hay ningún deployment. Ve al catálogo y despliega un modelo.</div>`;
-    // Solo cambiamos el texto, no el nodo entero: así el garabato sobrevive
-    if($('pgEmpty')) $('pgEmpty').lastChild.textContent = ' Necesitas un deployment en estado running.';
+      No deployment yet. Go to the catalog and deploy a model.</div>`;
+    if($('pgEmpty')) $('pgEmpty').lastChild.textContent = ' You need a deployment in the running state.';
     return;
   }
 
@@ -513,13 +455,13 @@ async function loadDeployment(){
         <dt>endpoint</dt><dd>${INF}</dd>
         <dt>dtype</dt><dd>${c.dtype || '—'}</dd>
         <dt>max_model_len</dt><dd>${c.max_model_len || '—'}</dd>
-        <dt>memoria reservada</dt><dd>${c.memory_utilization || '—'}</dd>
-        <dt>creado</dt><dd>${dep.created_at ? new Date(dep.created_at).toLocaleString() : '—'}</dd>
+        <dt>reserved memory</dt><dd>${c.memory_utilization || '—'}</dd>
+        <dt>created</dt><dd>${dep.created_at ? new Date(dep.created_at).toLocaleString() : '—'}</dd>
       </dl>
       ${dep.message ? `<div class="msg">${dep.message}</div>` : ''}
       <div class="actions" style="justify-content:flex-start">
-        <button class="ghost" onclick="toggleLogs()">Ver logs</button>
-        <button class="danger" onclick="destroy()">Eliminar</button>
+        <button class="ghost" onclick="toggleLogs()">View logs</button>
+        <button class="danger" onclick="destroy()">Delete</button>
       </div>
       <pre class="logs" id="logs"></pre>
     </div>`;
@@ -529,16 +471,16 @@ window.toggleLogs = async () => {
   const el = $('logs');
   if(el.classList.contains('on')){ el.classList.remove('on'); return; }
   el.classList.add('on');
-  el.textContent = 'cargando…';
+  el.textContent = 'loading…';
   try{
     const d = await (await fetch(`${CP}/api/deployments/logs?tail=80`)).json();
-    el.textContent = d.logs || '(vacío)';
+    el.textContent = d.logs || '(empty)';
     el.scrollTop = el.scrollHeight;
-  }catch{ el.textContent = 'No se pudieron leer los logs.'; }
+  }catch{ el.textContent = 'Could not read the logs.'; }
 };
 
 window.destroy = async () => {
-  if(!confirm('¿Eliminar el deployment? Se liberará la memoria.')) return;
+  if(!confirm('Delete the deployment? Its memory will be released.')) return;
   await fetch(`${CP}/api/deployments`, {method:'DELETE'});
   loadDeployment();
 };
@@ -547,7 +489,7 @@ function addMsg(role, text){
   $('pgEmpty')?.remove();
   const el = document.createElement('div');
   el.className = `m ${role}`;
-  el.innerHTML = `<div class="role">${role === 'user' ? 'tú' : (dep?.model_name || 'modelo')}</div>
+  el.innerHTML = `<div class="role">${role === 'user' ? 'you' : (dep?.model_name || 'model')}</div>
                   <div class="bubble"></div>`;
   el.querySelector('.bubble').textContent = text;
   $('msgs').appendChild(el);
@@ -559,7 +501,7 @@ async function send(){
   if(controller){ controller.abort(); controller = null; return; }
   const text = $('input').value.trim();
   if(!text) return;
-  if(!dep || dep.state !== 'running'){ alert('El deployment no está en estado running.'); return; }
+  if(!dep || dep.state !== 'running'){ alert('The deployment is not in the running state.'); return; }
 
   $('input').value = '';
   $('input').style.height = 'auto';
@@ -576,7 +518,7 @@ async function send(){
   let ttft = null, tokens = 0, answer = '';
 
   controller = new AbortController();
-  $('send').textContent = 'Detener';
+  $('send').textContent = 'Stop';
 
   try{
     const res = await fetch(`${INF}/v1/chat/completions`, {
@@ -639,22 +581,21 @@ async function send(){
   }catch(e){
     cursor.remove();
     bubble.textContent = e.name === 'AbortError'
-      ? answer + '\n\n[detenido]'
+      ? answer + '\n\n[stopped]'
       : `Error: ${e.message}`;
   }finally{
     controller = null;
-    $('send').textContent = 'Enviar';
+    $('send').textContent = 'Send';
   }
 }
 
-$('send').onclick = send;
-// Guardamos el estado vacío con su garabato para poder restaurarlo tal cual
 const EMPTY_HTML = $('msgs').innerHTML;
 
+$('send').onclick = send;
 $('clear').onclick = () => {
   history = [];
   $('msgs').innerHTML = EMPTY_HTML;
-  $('pgEmpty').lastChild.textContent = ' Chat limpio. El contexto se reinició.';
+  $('pgEmpty').lastChild.textContent = ' Chat cleared. Context has been reset.';
   $('mTtft').textContent = $('mTotal').textContent = $('mTok').textContent = $('mRate').textContent = '—';
 };
 $('temp').oninput = e => $('vTemp').textContent = e.target.value;
