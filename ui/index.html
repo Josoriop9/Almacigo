@@ -291,6 +291,10 @@ textarea::placeholder{color:var(--faint)}
       </div>
       <aside class="pgside">
         <h4>Parameters</h4>
+          <div class="field">
+          <label>model</label>
+          <select id="modelPick"></select>
+        </div>
         <div class="field">
           <label>temperature <span id="vTemp">0.7</span></label>
           <input type="range" id="temp" min="0" max="2" step="0.1" value="0.7">
@@ -343,9 +347,10 @@ textarea::placeholder{color:var(--faint)}
 <script>
 const CP    = '/cp';
 const INF   = '/ia';
-const MODEL = (window.ALMACIGO_CONFIG || {}).model || 'qwen-local';
-
-const $ = id => document.getElementById(id);
+const CFG = window.ALMACIGO_CONFIG || {};
+const MODELS = CFG.models || ['qwen-local'];
+const LOCAL_MODEL = CFG.local || 'qwen-local';
+const $ = id => document.getElementById(id);$('modelPick').innerHTML = MODELS.map(m => `<option>${m}</option>`).join('');
 let models = [], dep = null, history = [], controller = null;
 
 document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
@@ -502,8 +507,8 @@ async function send(){
   if(controller){ controller.abort(); controller = null; return; }
   const text = $('input').value.trim();
   if(!text) return;
-  if(!dep || dep.state !== 'running'){ alert('The deployment is not in the running state.'); return; }
-
+  const model = $('modelPick').value;
+  if(model === LOCAL_MODEL && (!dep || dep.state !== 'running')){ alert('The deployment is not in the running state.'); return; }
   $('input').value = '';
   $('input').style.height = 'auto';
   addMsg('user', text);
@@ -527,7 +532,7 @@ async function send(){
       headers:{'Content-Type':'application/json'},
       signal: controller.signal,
       body: JSON.stringify({
-        model: MODEL,
+        model: model,
         messages: history,
         max_tokens: +$('maxTok').value,
         temperature: +$('temp').value,

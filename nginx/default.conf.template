@@ -5,7 +5,7 @@ server {
   # Configuración para el navegador (sin secretos)
   location = /config.js {
     default_type application/javascript;
-    return 200 "window.ALMACIGO_CONFIG = { model: '${MODEL_ALIAS}' };";
+        return 200 "window.ALMACIGO_CONFIG = { models: '${MODEL_ALIASES}'.split(','), local: '${LOCAL_MODEL}' };";
   }
 
   # Control plane (desplegar modelos)
