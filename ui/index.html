@@ -209,8 +209,7 @@ textarea::placeholder{color:var(--faint)}
       <path d="M170 22 L172 32 M166 27 L177 26" stroke="#C08B62" stroke-width="2.4"/>
     </svg>
     <h2>Catalog</h2>
-    <p class="sub">Models downloaded to this machine. Pick one to create a deployment.</p>
-    <div class="cards" id="cards"><div class="empty">Loading…</div></div>
+    <p class="sub">Models on this machine, plus models available through the gateway.</p>    <div class="cards" id="cards"><div class="empty">Loading…</div></div>
   </section>
 
   <section class="view" id="v-deployments">
@@ -372,6 +371,22 @@ async function health(){
   }
 }
 
+function remoteCards(){
+  return MODELS.filter(m => m !== LOCAL_MODEL).map(m => `
+    <div class="card">
+      <h3>${m}</h3>
+      <div class="tags">
+        <span class="tag kind">gateway</span>
+        <span>managed by Foundry</span>
+      </div>
+      <button class="ghost full" onclick="useRemote('${m}')">Use in playground</button>
+    </div>`).join('');
+}
+window.useRemote = name => {
+  document.querySelector('[data-v=playground]').click();
+  $('modelPick').value = name;
+};
+
 async function loadModels(){
   try{ models = await (await fetch(`${CP}/api/models`)).json(); }
   catch{ models = []; }
@@ -392,7 +407,7 @@ async function loadModels(){
         ${m.architecture ? `<span>${m.architecture}</span>` : ''}
       </div>
       <button class="full" onclick="openModal('${m.name}')">Deploy</button>
-    </div>`).join('');
+        </div>`).join('') + remoteCards();
 }
 
 window.openModal = name => {
