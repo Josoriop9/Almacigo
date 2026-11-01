@@ -36,4 +36,11 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - /home/azureuser/almacigo/ui:/usr/share/nginx/html:ro
+      - ./ui:/usr/share/nginx/html:ro
+      - ./nginx/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+    environment:
+      - CONTROL_PLANE_URL=http://control-plane:8001
+      - APIM_URL=${APIM_URL}
+      - APIM_HOST=${APIM_HOST}
+      - APIM_KEY=${APIM_KEY}
+      - MODEL_ALIAS=${MODEL_ALIAS:-qwen-local}

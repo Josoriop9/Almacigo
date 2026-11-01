@@ -339,10 +339,11 @@ textarea::placeholder{color:var(--faint)}
   </div>
 </div>
 
+<script src="/config.js"></script>
 <script>
-const HOST = location.hostname;
-const CP   = `http://${HOST}:8001`;
-const INF  = `http://${HOST}:8000`;
+const CP    = '/cp';
+const INF   = '/ia';
+const MODEL = (window.ALMACIGO_CONFIG || {}).model || 'qwen-local';
 
 const $ = id => document.getElementById(id);
 let models = [], dep = null, history = [], controller = null;
@@ -521,12 +522,12 @@ async function send(){
   $('send').textContent = 'Stop';
 
   try{
-    const res = await fetch(`${INF}/v1/chat/completions`, {
+    const res = await fetch(`${INF}/chat/completions`, {
       method:'POST',
       headers:{'Content-Type':'application/json'},
       signal: controller.signal,
       body: JSON.stringify({
-        model: dep.model_name,
+        model: MODEL,
         messages: history,
         max_tokens: +$('maxTok').value,
         temperature: +$('temp').value,
