@@ -209,8 +209,7 @@ textarea::placeholder{color:var(--faint)}
       <path d="M170 22 L172 32 M166 27 L177 26" stroke="#C08B62" stroke-width="2.4"/>
     </svg>
     <h2>Catalog</h2>
-    <p class="sub">Models downloaded to this machine. Pick one to create a deployment.</p>
-    <div class="cards" id="cards"><div class="empty">Loading…</div></div>
+    <p class="sub">Models on this machine, plus models available through the gateway.</p>    <div class="cards" id="cards"><div class="empty">Loading…</div></div>
   </section>
 
   <section class="view" id="v-deployments">
@@ -291,6 +290,10 @@ textarea::placeholder{color:var(--faint)}
       </div>
       <aside class="pgside">
         <h4>Parameters</h4>
+          <div class="field">
+          <label>model</label>
+          <select id="modelPick"></select>
+        </div>
         <div class="field">
           <label>temperature <span id="vTemp">0.7</span></label>
           <input type="range" id="temp" min="0" max="2" step="0.1" value="0.7">
@@ -343,9 +346,10 @@ textarea::placeholder{color:var(--faint)}
 <script>
 const CP    = '/cp';
 const INF   = '/ia';
-const MODEL = (window.ALMACIGO_CONFIG || {}).model || 'qwen-local';
-
-const $ = id => document.getElementById(id);
+const CFG = window.ALMACIGO_CONFIG || {};
+const MODELS = CFG.models || ['qwen-local'];
+const LOCAL_MODEL = CFG.local || 'qwen-local';
+const $ = id => document.getElementById(id);$('modelPick').innerHTML = MODELS.map(m => `<option>${m}</option>`).join('');
 let models = [], dep = null, history = [], controller = null;
 
 document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
@@ -367,6 +371,22 @@ async function health(){
   }
 }
 
+function remoteCards(){
+  return MODELS.filter(m => m !== LOCAL_MODEL).map(m => `
+    <div class="card">
+      <h3>${m}</h3>
+      <div class="tags">
+        <span class="tag kind">gateway</span>
+        <span>managed by Foundry</span>
+      </div>
+      <button class="ghost full" onclick="useRemote('${m}')">Use in playground</button>
+    </div>`).join('');
+}
+window.useRemote = name => {
+  document.querySelector('[data-v=playground]').click();
+  $('modelPick').value = name;
+};
+
 async function loadModels(){
   try{ models = await (await fetch(`${CP}/api/models`)).json(); }
   catch{ models = []; }
@@ -387,7 +407,7 @@ async function loadModels(){
         ${m.architecture ? `<span>${m.architecture}</span>` : ''}
       </div>
       <button class="full" onclick="openModal('${m.name}')">Deploy</button>
-    </div>`).join('');
+        </div>`).join('') + remoteCards();
 }
 
 window.openModal = name => {
@@ -502,8 +522,8 @@ async function send(){
   if(controller){ controller.abort(); controller = null; return; }
   const text = $('input').value.trim();
   if(!text) return;
-  if(!dep || dep.state !== 'running'){ alert('The deployment is not in the running state.'); return; }
-
+  const model = $('modelPick').value;
+  if(model === LOCAL_MODEL && (!dep || dep.state !== 'running')){ alert('The deployment is not in the running state.'); return; }
   $('input').value = '';
   $('input').style.height = 'auto';
   addMsg('user', text);
@@ -527,7 +547,7 @@ async function send(){
       headers:{'Content-Type':'application/json'},
       signal: controller.signal,
       body: JSON.stringify({
-        model: MODEL,
+        model: model,
         messages: history,
         max_tokens: +$('maxTok').value,
         temperature: +$('temp').value,

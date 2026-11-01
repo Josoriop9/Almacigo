@@ -43,4 +43,5 @@ services:
       - APIM_URL=${APIM_URL}
       - APIM_HOST=${APIM_HOST}
       - APIM_KEY=${APIM_KEY}
-      - MODEL_ALIAS=${MODEL_ALIAS:-qwen-local}
+      - MODEL_ALIASES=${MODEL_ALIASES:-qwen-local,chat-rapido}
+      - LOCAL_MODEL=${LOCAL_MODEL:-qwen-local}
