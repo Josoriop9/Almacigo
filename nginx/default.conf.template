@@ -1,0 +1,28 @@
+server {
+  listen 80;
+  root /usr/share/nginx/html;
+
+  # Configuración para el navegador (sin secretos)
+  location = /config.js {
+    default_type application/javascript;
+    return 200 "window.ALMACIGO_CONFIG = { model: '${MODEL_ALIAS}' };";
+  }
+
+  # Control plane (desplegar modelos)
+  location /cp/ {
+    proxy_pass ${CONTROL_PLANE_URL}/;
+  }
+
+  # Inferencia: siempre por APIM, con la llave puesta aquí
+  location /ia/ {
+    proxy_pass ${APIM_URL}/ia/;
+    proxy_set_header Host ${APIM_HOST};
+    proxy_ssl_server_name on;
+    proxy_ssl_name ${APIM_HOST};
+    proxy_set_header api-key ${APIM_KEY};
+    proxy_buffering off;
+    proxy_read_timeout 300s;
+  }
+
+  location / { try_files $uri $uri/ /index.html; }
+}
